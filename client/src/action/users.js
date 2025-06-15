@@ -13,6 +13,7 @@ export const updateUser = (id, updatedUser) => async (dispatch) => {
   try {
     const { data } = await api.updateUser(id, updatedUser)
     dispatch({ type: 'UPDATE_PROFILE', payload: data })
+    dispatch(getAllUsers())
   } catch (error) {
     const message = error.response?.data?.message || "User Update Failed";
     throw new Error(message);

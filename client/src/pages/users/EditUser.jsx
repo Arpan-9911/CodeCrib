@@ -18,7 +18,7 @@ const EditUser = ({setEditForm, user}) => {
       tags: tags.split(',').map(tag => tag.trim()).filter(tag => tag !== ''),
     }
     try{
-      await dispatch(updateUser(updatedUser))
+      await dispatch(updateUser(user._id, updatedUser))
       setEditForm(false)
       alert("Profile updated successfully!");
     } catch(error) {
