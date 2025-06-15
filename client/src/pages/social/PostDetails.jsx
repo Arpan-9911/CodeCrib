@@ -18,7 +18,7 @@ const PostDetails = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  const baseURL = "http://localhost:5173";
+  const baseURL = "https://ak-codecrib.netlify.app";
 
   const handleLike = async (id) => {
     if (!user){

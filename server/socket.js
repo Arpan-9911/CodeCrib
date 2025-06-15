@@ -6,7 +6,7 @@ const onlineUsers = new Map();
 export const initSocket = (server) => {
   io = new Server(server, {
     cors: {
-      origin: "http://localhost:5173",
+      origin: "https://ak-codecrib.netlify.app",
       methods: ["GET", "POST"]
     }
   });

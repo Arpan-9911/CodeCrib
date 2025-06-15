@@ -16,7 +16,7 @@ const QuestionDetails = () => {
   const question = qList.data && qList.data.filter(q => q._id == id)[0]
 
   const user = useSelector(state => state.currentUserReducer)
-  const baseURL = "http://localhost:5173";
+  const baseURL = "https://ak-codecrib.netlify.app";
   const location = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
