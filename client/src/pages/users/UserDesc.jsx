@@ -14,7 +14,7 @@ const UserDesc = ({userProfile, currentUser, id}) => {
       await dispatch(acceptFriendRequest(currentUser?.result?._id, friendId));
       alert("Friend request accepted!");
       socket.emit("sendNotification", {
-        recipientId: id,
+        recipientId: friendId,
         message: `${ currentUser?.result?.name } accepted your friend request!`
       });
     } catch (error) {
