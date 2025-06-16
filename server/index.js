@@ -4,6 +4,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import http from 'http';
 import path from 'path';
+import { Server } from "socket.io";
 
 import authRouter from './routes/auth.js';
 import userRouter from './routes/users.js';
@@ -11,8 +12,6 @@ import questionRouter from './routes/questions.js';
 import answerRouter from './routes/answers.js';
 import subscriptionRouter from './routes/subscription.js';
 import socialRouter from './routes/social.js';
-
-import { initSocket } from './socket.js';
 
 dotenv.config();
 const app = express();
@@ -36,8 +35,19 @@ app.get("/", (req, res) => {
   res.send("Hello from server");
 });
 
-// Initialize socket.io
-initSocket(server);
+const io = new Server(server, {
+  cors: {
+    origin: "https://ak-codecrib.netlify.app",
+  },
+});
+
+io.on("connection", (socket) => {
+  socket.on("join", (userId) => {
+    socket.join(userId);
+  });
+});
+export { io };
+
 
 // Start server
 const PORT = process.env.PORT || 5000;

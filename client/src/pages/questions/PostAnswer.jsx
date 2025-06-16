@@ -2,9 +2,8 @@ import React, { useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { postAnswer } from '../../action/answers';
-import socket from '../../socket'
 
-const PostAnswer = ({qUserId}) => {
+const PostAnswer = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
@@ -17,10 +16,6 @@ const PostAnswer = ({qUserId}) => {
     if(!user) return navigate('/login')
     try{
       await dispatch(postAnswer(id, { answerBody, userAnswered: user.result.name}))
-      socket.emit("sendNotification", {
-        recipientId: qUserId,
-        message: `${ user.result.name } answered your question.`
-      });
       setAnswerBody('')
     } catch(error) {
       alert(error.message);

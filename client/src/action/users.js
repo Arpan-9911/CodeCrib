@@ -75,3 +75,14 @@ export const sharePoints = (recipientId, amount) => async (dispatch) => {
     throw new Error(message);
   }
 }
+
+export const toggleNotification = (id) => async (dispatch) => {
+  try {
+    const { data } = await api.toggleNotification(id)
+    dispatch({ type: 'UPDATE_PROFILE', payload: data })
+    dispatch(getAllUsers())
+  } catch (error) {
+    const message = error.response?.data?.message || "Notification Failed";
+    throw new Error(message);
+  }
+}

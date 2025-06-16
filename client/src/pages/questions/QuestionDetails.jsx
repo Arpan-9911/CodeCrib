@@ -8,7 +8,6 @@ import Avatar from '../../components/avatar/Avatar'
 import Answer from './Answer'
 import PostAnswer from './PostAnswer'
 import { deleteQuestion, voteQuestion } from '../../action/questions';
-import socket from '../../socket'
 
 const QuestionDetails = () => {
   const qList = useSelector((state) => state.questionsReducer)
@@ -58,10 +57,6 @@ const QuestionDetails = () => {
     if(!user) return navigate('/login')
     try{
       await dispatch(voteQuestion(id, value));
-      socket.emit("sendNotification", {
-        recipientId: question.userId,
-        message: `${ user.result.name } voted your question.`
-      });
     } catch (error) {
       alert(error.message);
     }
@@ -106,7 +101,7 @@ const QuestionDetails = () => {
           </div>
           {/* Post Answer */}
           <div className="mt-4 border-t border-gray-300">
-            <PostAnswer qUserId={question.userId} />
+            <PostAnswer />
           </div>
         </div>
       )}

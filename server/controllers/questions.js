@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import Question from "../models/question.js";
 import User from "../models/auth.js";
+import { io } from "../index.js";
 
 const PLAN_DETAILS = {
   free: { price: 0, dailyLimit: 1 },
@@ -11,7 +12,11 @@ const PLAN_DETAILS = {
 
 export const getAllQuestions = async (req, res) => {
   try {
-    const qList = await Question.find().sort({ askedOn: -1 });
+    const qList = [];
+    const allQList = await Question.find().sort({ askedOn: -1 });
+    allQList.forEach((q) => {
+      qList.push(q);
+    })
     return res.status(200).json(qList);
   } catch (error) {
     return res.status(404).json({ message: error.message });
@@ -102,6 +107,16 @@ export const voteQuestion = async (req, res) => {
       }
     }
     await question.save();
+
+    const questionOwner = await User.findById(question.userId);
+    const voter = await User.findById(userId);
+    if (questionOwner?.notificationEnabled) {
+      io.to(question.userId).emit("notification", {
+        title: "New Vote",
+        message: `${voter.name} voted on your question.`,
+      });
+    }
+
     return res.status(200).json({ message: "Voted Successfully" });
   } catch (error) {
     return res.status(404).json({ message: error.message });

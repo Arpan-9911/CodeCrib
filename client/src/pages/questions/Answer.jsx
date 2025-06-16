@@ -4,7 +4,6 @@ import moment from 'moment'
 import { FaCaretUp, FaCaretDown } from 'react-icons/fa';
 import { useSelector, useDispatch } from 'react-redux'
 import { deleteAnswer, voteAnswer } from '../../action/answers';
-import socket from '../../socket'
 
 const Answer = ({answer}) => {
   const navigate = useNavigate()
@@ -28,10 +27,6 @@ const Answer = ({answer}) => {
     if(!user) return navigate('/login')
     try{
       await dispatch(voteAnswer(id, {answerId: answer._id, value}));
-      socket.emit("sendNotification", {
-        recipientId: answer.userId,
-        message: `${ user.result.name } voted your answer.`
-      });
     } catch (error) {
       alert(error.message);
     }

@@ -62,6 +62,10 @@ const userSchema = mongoose.Schema({
     enum: ["free", "bronze", "silver", "gold"],
     default: "free",
   },
+  notificationEnabled: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 export default mongoose.model("User", userSchema);

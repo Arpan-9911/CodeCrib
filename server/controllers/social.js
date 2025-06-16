@@ -6,7 +6,11 @@ import User from '../models/auth.js';
 
 export const getSocialPosts = async (req, res) => {
   try {
-    const posts = await Social.find().sort({ postedOn: -1 })
+    const posts = [];
+    const allPosts = await Social.find().sort({ postedOn: -1 })
+    allPosts.forEach(post => {
+      posts.push(post)
+    })
     res.status(200).json(posts)
   } catch (err) {
     res.status(500).json({ message: err.message })

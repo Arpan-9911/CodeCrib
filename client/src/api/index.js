@@ -21,6 +21,7 @@ export const acceptFriendRequest = (myId, friendId) => API.patch('/users/acceptF
 export const rejectFriendRequest = (myId, friendId) => API.patch('/users/rejectFriendRequest', { myId, friendId })
 export const removeFriend = (myId, friendId) => API.patch('/users/removeFriend', { myId, friendId })
 export const sharePoints = (recipientId, amount) => API.post('/users/sharePoints', { recipientId, amount })
+export const toggleNotification = (id) => API.patch(`/users/toggleNotification/${id}`)
 
 // Questions
 export const getAllQuestions = () => API.get('/questions/get')

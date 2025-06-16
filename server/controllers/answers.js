@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import Question from "../models/question.js";
 import User from "../models/auth.js";
+import { io } from "../index.js";
 
 export const postAnswer = async (req, res) => {
   const { id: _id } = req.params;
@@ -23,6 +24,15 @@ export const postAnswer = async (req, res) => {
     question.noOfAnswers += 1;
     await question.save();
     await User.findByIdAndUpdate(userId, { $inc: { points: 5 } });
+
+    const questionOwner = await User.findById(question.userId);
+    if (questionOwner?.notificationEnabled) {
+      io.to(question.userId).emit("notification", {
+        title: "New Answer",
+        message: `${userAnswered} answered your question.`,
+      });
+    }
+
     return res.status(200).json({ message: "Answer Added Successfully" });
   } catch (error) {
     return res.status(409).json({ message: error.message });
@@ -112,6 +122,16 @@ export const voteAnswer = async (req, res) => {
     }
 
     await question.save();
+
+    const answerOwner = await User.findById(answer.userId);
+    const voter = await User.findById(userId);
+    if (answerOwner?.notificationEnabled) {
+      io.to(answer.userId.toString()).emit("notification", {
+        title: "Answer Voted",
+        message: `${voter.name} voted on your answer`,
+      });
+    }
+
     return res.status(200).json({ message: "Answer Voted Successfully" });
   } catch (error) {
     return res.status(409).json({ message: error.message });

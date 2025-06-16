@@ -20,8 +20,9 @@ import { getAllQuestions } from "./action/questions";
 import { getAllPosts } from "./action/socialPost";
 import NewPost from "./pages/social/NewPost";
 import PostDetails from "./pages/social/PostDetails";
+import { io } from "socket.io-client";
 
-import socket from "./socket";
+// import socket from "./socket";
 
 const App = () => {
   const [mobileScreen, setmobileScreen] = useState(false);
@@ -50,27 +51,26 @@ const App = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (user && user.result && user.result._id) {
-      socket.emit("join", user.result._id);
-    }
-  }, [user]);
+  const socket = io("https://codecrib.onrender.com");
 
-  useEffect(() => {
-    const handleNotification = ({ message }) => {
+  // Join user room
+  const userId = user?.result?._id;
+    socket.emit("join", userId);
+
+    // Listen for server notifications
+    socket.on("notification", (data) => {
       if (Notification.permission === "granted") {
-        new Notification("CodeCrib Notification", {
-          body: message,
-        });
+        new Notification(data.title, { body: data.message });
       }
-    };
-    socket.on("getNotification", handleNotification);
+    });
+
+    // Request permission once
     if (Notification.permission !== "granted") {
       Notification.requestPermission();
     }
-    return () => {
-      socket.off("getNotification", handleNotification);
-    };
-  }, []);
+
+    return () => socket.disconnect();
+  }, [user]);
 
   return (
     <BrowserRouter>

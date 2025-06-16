@@ -7,7 +7,6 @@ import Avatar from '../../components/avatar/Avatar'
 import EditUser from './EditUser'
 import UserDesc from './UserDesc'
 import { sendFriendRequest, sharePoints } from '../../action/users'
-import socket from '../../socket'
 
 const UserDetail = () => {
   const [editForm, setEditForm] = useState(false)
@@ -24,10 +23,6 @@ const UserDetail = () => {
     try {
       await dispatch(sendFriendRequest(currentUser?.result?._id, id));
       alert("Friend request sent!");
-      socket.emit("sendNotification", {
-        recipientId: id,
-        message: `${ currentUser?.result?.name } sent you a friend request!`
-      });
     } catch (error) {
       alert(error.message);
     }
@@ -40,10 +35,6 @@ const UserDetail = () => {
     if (isNaN(numericAmount) || numericAmount <= 0) return alert("Enter a valid amount");
     try {
       await dispatch(sharePoints(id, numericAmount));
-      socket.emit("sendNotification", {
-        recipientId: id,
-        message: `${ currentUser?.result?.name } shared ${amount} points with you!`
-      })
       setAmount('');
       alert("Points shared successfully!");
     } catch (error) {
