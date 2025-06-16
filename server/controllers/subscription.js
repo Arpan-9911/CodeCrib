@@ -25,6 +25,14 @@ export const subscribe = async (req, res) => {
   if (!PLAN_DETAILS[plan]) {
     return res.status(400).json({ message: "Invalid Plan" });
   }
+
+  const now = new Date();
+  const currentHour = now.getHours();
+
+  if (currentHour !== 10) {
+    return res.status(403).json({ message: "Payments allowed only between 10:00 AM and 11:00 AM" });
+  }
+
   const { price } = PLAN_DETAILS[plan];
   try {
     const order = await razorpay.orders.create({
