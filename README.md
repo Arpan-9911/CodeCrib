@@ -33,6 +33,7 @@ A full-stack web application originally developed during my internship. It start
 
 
 ## 📂 Folder Structure (Simplified)
+```
 📦 project-root
 ├── client/                # Frontend (React + Vite)
 │   ├── src/               # Source code
@@ -50,3 +51,4 @@ A full-stack web application originally developed during my internship. It start
 │   └── .env               # Backend environment variables
 │
 └── README.md              # Project overview
+```
