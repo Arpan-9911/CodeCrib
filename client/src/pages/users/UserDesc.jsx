@@ -53,6 +53,7 @@ const UserDesc = ({userProfile, currentUser, id}) => {
                 type="checkbox"
                 checked={userProfile?.notificationEnabled}
                 onChange={handleNotification}
+                className='w-5 h-5'
               />
               Notifications {userProfile?.notificationEnabled ? 'On' : 'Off'}
             </label>
@@ -107,16 +108,20 @@ const UserDesc = ({userProfile, currentUser, id}) => {
           </div>
         </div>
       )}
-      <div className='flex gap-4 flex-col'>
+      <div className='flex gap-2 flex-col'>
         <div>
           <h1 className='text-xl font-semibold'>Points Earned: {userProfile?.points}</h1>
         </div>
         <div>
           <h1 className='text-xl font-semibold'>Watched Tags</h1>
           <p>
-            {userProfile?.tags?.map((tag, index) => (
-              <span key={index}>#{tag}, </span>
-            ))}
+            {userProfile?.tags?.length > 0 ? (
+              userProfile?.tags?.map((tag, index) => (
+                <span key={index}>#{tag}, </span>
+              ))
+            ) : (
+              <p>No Watched Tags</p>
+            )}
           </p>
         </div>
         {currentUser?.result?._id === id && (
