@@ -33,18 +33,20 @@ A full-stack web application originally developed during my internship. It start
 
 
 ## 📂 Folder Structure (Simplified)
-📦project-root
-├── client/ # Frontend (React+Vite)
-│ ├── src/
-│ |── public/
-| ├── package.json
-| └── .env
-├── server/ # Backend (Node/Express)
-│ ├── controllers/
-│ ├── models/
-│ ├── routes/
-│ |── middleware/
-│ |── uploads/
-| ├── package.json
-| └── .env
-└── README.md
+📦 project-root
+├── client/                # Frontend (React + Vite)
+│   ├── src/               # Source code
+│   ├── public/            # Static assets
+│   ├── package.json       # Frontend dependencies
+│   └── .env               # Frontend environment variables
+│
+├── server/                # Backend (Node + Express)
+│   ├── controllers/       # Route logic
+│   ├── models/            # Mongoose schemas
+│   ├── routes/            # API routes
+│   ├── middleware/        # Auth/validation middleware
+│   ├── uploads/           # Uploaded files
+│   ├── package.json       # Backend dependencies
+│   └── .env               # Backend environment variables
+│
+└── README.md              # Project overview
